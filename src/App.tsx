@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [backendMessage, setBackendMessage] = useState('')
+
+  useEffect(() => {
+    fetch('https://questforge-backend.onrender.com/')
+      .then(res => res.text())
+      .then(setBackendMessage)
+      .catch(() => setBackendMessage('Could not connect to backend'))
+  }, [])
 
   return (
     <>
@@ -28,6 +36,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <div>
+        <h2>Backend Message:</h2>
+        <p>{backendMessage}</p>
+      </div>
     </>
   )
 }
